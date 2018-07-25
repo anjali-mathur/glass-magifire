@@ -1,37 +1,76 @@
-## Welcome to GitHub Pages
+##maginifire glass oom and fancy box on product page
 
-You can use the [editor on GitHub](https://github.com/anjali-mathur/glass-magifire/edit/master/index.md) to maintain and preview the content for your website in Markdown files.
+        <div class="product-single__photos grid pull-grid">
+          {% assign featured_image = current_variant.featured_image | default: product.featured_image %}
+          {% comment %}
+          Display current variant image, or default first
+          {% endcomment %}
+          <div class="product-single__photo-wrapper grid__item large--ten-twelfths">
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+            <img class="product-single__photo img1 fancybox"rel="gallery1"
+                 id="ProductPhotoImg"
+                 src="{{ featured_image | img_url: 'original' }}"
+                 alt="{{ featured_image.alt | escape }}" data-image-id="{{ featured_image.id }}" data-zoom-image="{{ featured_image | img_url: 'master' }}">
 
-### Markdown
+          </div>
+          <div class="grid__item large--two-twelfths">
+            <ul class="thumbnails" id="gallery_01">
+              {% comment %}
+              Display rest of product images, not repeating the featured one
+              {% endcomment %}
+              {% for image in product.images %}
+              {% unless image contains featured_image %}
+              <li class="product-single__photo-wrapper">
+                <a class="active fancybox" rel="gallery1" href="{{ image.src | img_url: 'original' }}" data-image="{{ image.src | img_url: 'original' }}" data-zoom-image="{{ image.src | img_url: 'master' }}" >
+                  <img class="product-single__photo" src="{{ image.src | img_url: 'compact' }}"
+                       alt="{{ image.alt | escape }}"
+                       data-image-id="{{ image.id }}">
+                </a>
+              </li>
+              {% endunless %}
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+ 
+<script type="text/javascript">
+$(document).ready(function() {
+$(".img1").elevateZoom({ gallery: 'gallery_01', cursor: 'pointer', galleryActiveClass: "active", scrollZoom : true });
+$(".img1").bind("click", function(e) {
+var ez = $('.img1').data('elevateZoom');
+ez.closeAll();
+$.fancybox(ez.getGalleryList());
+return false;
+});
+   $('.thumbnails').on('click', 'a', function(e) {
+    var $this = $(this);
+    e.preventDefault();
+    // Use EasyZoom's `swap` method
+    ez.swap($this.data('zoom-image'), $this.attr('href'));
+     $.fancybox(ez.getGalleryList());
+return false;
+  }); 
+  });
+  </script>
+       
+                <script>
+                  jQuery(window).load(function() { 
+                    jQuery('.thumbnails .owl-wrapper .owl-item').first().find('a').addClass('zoomGalleryActive');
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
 
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/anjali-mathur/glass-magifire/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+                    jQuery(".thumbnails").owlCarousel({
+                      itemsCustom : [
+                        [320, 3],
+                        [767, 3],
+                        [768, 3],
+                        [992, 3],
+                        [1024, 3],
+                        [1025, 4],
+                        [1600, 4]
+                      ],
+                      pagination : true,
+                      navigation : true,
+                      navigationText : ['<i class="cs-font clever-icon-prev"></i>','<i class="cs-font clever-icon-next"></i>']
+                    });
+                  });
+                </script>
