@@ -58,22 +58,3 @@
                 </script>
 
 
-<script type="text/javascript">
-$(document).ready(function() {
-$(".img1").elevateZoom({ gallery: 'gallery_01', cursor: 'pointer', galleryActiveClass: "active", scrollZoom : true });
-$(".img1").bind("click", function(e) {
-var ez = $('.img1').data('elevateZoom');
-ez.closeAll();
-$.fancybox(ez.getGalleryList());
-return false;
-});
-   $('.thumbnails').on('click', 'a', function(e) {
-    var $this = $(this);
-    e.preventDefault();
-    // Use EasyZoom's `swap` method
-    ez.swap($this.data('zoom-image'), $this.attr('href'));
-     $.fancybox(ez.getGalleryList());
-return false;
-  }); 
-  });
-  </script>
